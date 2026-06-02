@@ -1,0 +1,27 @@
+# Sana 0.6B RunPod Serverless — Python Requirements
+# Pinned for reproducibility. SanaPipeline is in diffusers.
+
+# Core deps
+torch==2.6.0
+torchvision==0.21.0
+--extra-index-url https://download.pytorch.org/whl/cu124
+
+# Diffusers (SanaPipeline added in 0.33.0)
+diffusers==0.37.1
+transformers==4.57.3
+accelerate==1.13.0
+sentencepiece==0.2.0
+
+# Image handling
+pillow==12.0.0
+
+# RunPod serverless
+runpod==1.7.5
+
+# HTTP client (for potential image input downloads)
+httpx==0.28.1
+
+# Utilities
+huggingface_hub>=0.25.0
+safetensors==0.5.3
+tqdm==4.67.1

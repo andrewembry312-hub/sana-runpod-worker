@@ -1,0 +1,39 @@
+{
+  "title": "Sana 0.6B Text-to-Image",
+  "description": "Ultra-fast 1024×1024 text-to-image in ~1 second. NVIDIA Sana 0.6B with DC-AE + Gemma 2 text encoder, weights baked in — no network volume required. Apache-2.0.",
+  "type": "serverless",
+  "category": "image",
+  "iconUrl": "https://pub-796a08821c1c483aaf5e274e0d03e350.r2.dev/studio-jobs/sana/b6afbdefd7b5/elabs-sana-demo-3-1780399611.png",
+
+  "config": {
+    "runsOn": "GPU",
+    "containerDiskInGb": 40,
+    "gpuCount": 1,
+    "gpuIds": "ADA_24,ADA_48,AMPERE_48",
+    "allowedCudaVersions": [
+      "12.8", "12.7", "12.6", "12.5", "12.4", "12.3", "12.2", "12.1", "12.0"
+    ],
+
+    "env": [
+      {
+        "key": "PYTORCH_CUDA_ALLOC_CONF",
+        "value": "expandable_segments:True"
+      }
+    ],
+
+    "presets": [
+      {
+        "name": "Fast (18 steps)",
+        "defaults": {
+          "SANA_STEPS": "18"
+        }
+      },
+      {
+        "name": "Quality (30 steps)",
+        "defaults": {
+          "SANA_STEPS": "30"
+        }
+      }
+    ]
+  }
+}
