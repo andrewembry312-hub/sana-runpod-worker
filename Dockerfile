@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements-runpod.txt
 # Bake Sana 600M weights into the image at build time.
 # Model is Apache 2.0 -- no HF token needed.
 RUN python3 -c "import os,huggingface_hub as h; M='Efficient-Large-Model/Sana_600M_1024px_diffusers'; T='/models/sana'; os.makedirs(T,exist_ok=True); h.snapshot_download(repo_id=M,local_dir=T); print('Done:',len(os.listdir(T)),'files',flush=True)"
-COPY rp_handler.py /workspace/rp_handler.py
+COPY handler.py /workspace/handler.py
 RUN mkdir -p /tmp/sana_outputs
 WORKDIR /workspace
-CMD ["python", "-u", "rp_handler.py"]
+CMD ["python", "-u", "handler.py"]

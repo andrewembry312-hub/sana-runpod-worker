@@ -49,6 +49,13 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 import torch
 from diffusers import SanaPipeline
 
+# Disable flash/mem-efficient SDPA — avoids "no kernel image" CUDA errors
+# that occur when the GPU compute capability isn't in the precompiled kernels.
+# Gemma 2 text encoder uses SDPA; math backend works on all CUDA GPUs.
+torch.backends.cuda.enable_flash_sdp(False)
+torch.backends.cuda.enable_mem_efficient_sdp(False)
+torch.backends.cuda.enable_math_sdp(True)
+
 # ── Model path (baked into image at BUILD TIME) ──────────────────────────────
 MODEL_ID = "/models/sana"
 
@@ -79,11 +86,8 @@ def load_pipeline():
         variant="fp16",
     )
 
-    # Move to GPU
+    # Move fully to GPU — cpu_offload causes issues in serverless containers
     pipe = pipe.to(_device)
-
-    # Enable memory optimizations
-    pipe.enable_model_cpu_offload()  # offloads non-essential components to CPU
 
     print(f"[Cold Start] Pipeline ready in {time.time() - t0:.1f}s", flush=True)
 
